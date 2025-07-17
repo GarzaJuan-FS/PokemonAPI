@@ -2,14 +2,14 @@
   "name": "pokemon",
   "version": "1.0.0",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "node": "18.x",
+    "npm": "8.x"
   },
   "scripts": {
     "install-reactjs": "npm install --prefix reactjs",
-    "install-api": "npm install --prefix api",
+    "install-api": "npm install --prefix api", 
     "build-reactjs": "npm run build --prefix reactjs",
-    "heroku-postbuild": "npm run install-api && npm run install-reactjs && npm run build-reactjs",
+    "heroku-postbuild": "cd api && npm install && cd ../reactjs && npm install && npm run build",
     "start": "npm start --prefix api",
     "dev:react": "concurrently --raw \"npm run api\" \"npm run react\"",
     "reactjs": "cd reactjs && npm run start",
