@@ -6,6 +6,7 @@ const cors = require("cors");
 const pokemonRouter = require("./routes/pokemon");
 
 const app = express();
+app.use(cors());
 
 const PORT = process.env.PORT || 4000;
 

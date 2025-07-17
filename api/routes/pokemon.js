@@ -5,10 +5,10 @@ const Pokemon = require("../models/pokemon");
 const pokemon = require("../models/pokemon");
 
 const getPokemon = async (req, res, next) => {
-  let student;
+  let pokemon;
   try {
-    student = await Pokemon.findById(req.params.id);
-    if (student === null) {
+    pokemon = await Pokemon.findById(req.params.id);
+    if (pokemon === null) {
       return res.status(404).json({ message: "Cannot find Pokémon" });
     }
   } catch (error) {
@@ -41,8 +41,8 @@ router.post("/", async (req, res) => {
     level: req.body.level,
   });
   try {
-    const newPokemon = await newPokemon.save();
-    res.status(201).json(newPokemon);
+    const savedPokemon = await newPokemon.save();
+    res.status(201).json(savedPokemon);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
