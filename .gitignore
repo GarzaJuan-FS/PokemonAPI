@@ -1,1 +1,10 @@
 node_modules
+.env
+.DS_Store
+*.log
+dist/
+build/
+.npm
+.cache
+coverage/
+.nyc_output

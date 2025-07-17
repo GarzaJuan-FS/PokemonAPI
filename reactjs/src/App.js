@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useState, useEffect } from "react";
 
@@ -40,6 +39,31 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Pokédex</h1>
+
+        {loading && <p>Loading Pokemon...</p>}
+
+        {error && (
+          <div style={{ color: "red", marginBottom: "20px" }}>
+            <p>Error: {error}</p>
+          </div>
+        )}
+
+        {pokemon && (
+          <div>
+            <h2>Pokemon Data:</h2>
+            <pre
+              style={{
+                textAlign: "left",
+                background: "#f4f4f4",
+                padding: "10px",
+                borderRadius: "5px",
+              }}
+            >
+              {JSON.stringify(pokemon, null, 2)}
+            </pre>
+          </div>
+        )}
+
         <ul>
           <li>View all Pokémon</li>
           <li>View Pokémon by ID</li>

@@ -70,7 +70,7 @@ router.patch("/:id", getPokemon, async (req, res) => {
 //DELETE POKEMON BY ID
 router.delete("/:id", getPokemon, async (req, res) => {
   try {
-    await res.pokemon.remove();
+    await res.pokemon.deleteOne();
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: error.message });
