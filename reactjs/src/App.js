@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useState, useEffect } from "react";
 
@@ -8,7 +7,7 @@ function App() {
   const [error, setError] = useState(null);
   const API_BASE =
     process.env.NODE_ENV === "development"
-      ? "http://localhost:4000/api/v1"
+      ? "http://localhost:4000"
       : process.env.REACT_APP_API_URL;
   useEffect(() => {
     let ignore = false;
