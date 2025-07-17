@@ -1,21 +1,21 @@
 {
-    "name": "pokemon",
-    "version": "1.0.0",
-    "engines": {
-        "node": ">=18.0.0",
-        "npm": ">=8.0.0"
-    },
-    "scripts": {
-        "install-reactjs": "npm install --prefix reactjs",
-        "install-api": "npm install --prefix api",
-        "build-reactjs": "npm run build --prefix reactjs",
-        "heroku-postbuild": "npm run install-api && npm run install-reactjs && npm run build-reactjs",
-        "start": "npm start --prefix api",
-        "dev:react": "concurrently --raw \"npm run api\" \"npm run react\"",
-        "reactjs": "cd reactjs && npm run start",
-        "api": "cd api; nodemon server.js"
-    },
-    "dependencies": {
-        "concurrently": "^9.2.0"
-    }
+  "name": "pokemon",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "install-reactjs": "npm install --prefix reactjs",
+    "install-api": "npm install --prefix api",
+    "build-reactjs": "npm run build --prefix reactjs",
+    "heroku-postbuild": "npm run install-api && npm run install-reactjs && npm run build-reactjs",
+    "start": "npm start --prefix api",
+    "dev:react": "concurrently --raw \"npm run api\" \"npm run react\"",
+    "reactjs": "cd reactjs && npm run start",
+    "api": "cd api; nodemon server.js"
+  },
+  "dependencies": {
+    "concurrently": "^9.2.0"
+  }
 }
