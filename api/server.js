@@ -6,7 +6,12 @@ const cors = require("cors");
 const pokemonRouter = require("./routes/pokemon");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Allow all origins for development
+    credentials: true,
+  })
+);
 
 const PORT = process.env.PORT || 4000;
 

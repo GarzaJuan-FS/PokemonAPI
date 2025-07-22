@@ -4,7 +4,7 @@ import Constants from "expo-constants";
 // deployed Heroku API or localhost for development
 const API_BASE_URL = __DEV__
   ? "http://localhost:4000" // Local development
-  : "https://your-pokemon-app.herokuapp.com"; // Production
+  : "https://pokemonapidem-4a4a5c9af15b.herokuapp.com/"; // Production
 
 const api = axios.create({
   baseURL: API_BASE_URL,
