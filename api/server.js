@@ -4,11 +4,17 @@ const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
 const pokemonRouter = require("./routes/pokemon");
+const authRouter = require("./routes/auth");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Allow all origins for development
+    credentials: true,
+  })
+);
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3001;
 
 const DATABASE_URL = process.env.DATABASE_URL;
 
@@ -26,6 +32,7 @@ app.get("/health", (req, res) => {
 
 // API routes
 app.use("/pokemon", pokemonRouter);
+app.use("/auth", authRouter);
 
 // Serve static files from React build
 app.use(express.static(path.join(__dirname, "../reactjs/build")));
@@ -35,6 +42,6 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../reactjs/build", "index.html"));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

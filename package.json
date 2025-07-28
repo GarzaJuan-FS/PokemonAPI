@@ -7,7 +7,7 @@
   },
   "scripts": {
     "install-reactjs": "npm install --prefix reactjs",
-    "install-api": "npm install --prefix api", 
+    "install-api": "npm install --prefix api",
     "build-reactjs": "npm run build --prefix reactjs",
     "heroku-postbuild": "cd api && npm install && cd ../reactjs && npm install && npm run build",
     "start": "npm start --prefix api",
