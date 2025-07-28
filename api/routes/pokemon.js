@@ -1,5 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
+
+const passportService = require("../services/passport");
+
+const protectedRoute = passport.authenticate("jwt", { session: false });
 
 const Pokemon = require("../models/pokemon");
 const pokemon = require("../models/pokemon");
@@ -19,7 +24,7 @@ const getPokemon = async (req, res, next) => {
 };
 
 //GET ALL POKEMON
-router.get("/", async (req, res) => {
+router.get("/", protectedRoute, async (req, res) => {
   try {
     const pokemons = await Pokemon.find();
     res.json(pokemons);
@@ -29,12 +34,12 @@ router.get("/", async (req, res) => {
 });
 
 //GET POKEMON BY ID
-router.get("/:id", getPokemon, (req, res) => {
+router.get("/:id", protectedRoute, getPokemon, (req, res) => {
   res.json(res.pokemon);
 });
 
 //CREATE NEW POKEMON
-router.post("/", async (req, res) => {
+router.post("/", protectedRoute, async (req, res) => {
   const newPokemon = new Pokemon({
     name: req.body.name,
     type: req.body.type,
@@ -49,7 +54,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE POKEMON BY ID
-router.patch("/:id", getPokemon, async (req, res) => {
+router.patch("/:id", protectedRoute, getPokemon, async (req, res) => {
   if (req.body.name != null) {
     res.pokemon.name = req.body.name;
   }
@@ -68,7 +73,7 @@ router.patch("/:id", getPokemon, async (req, res) => {
 });
 
 //DELETE POKEMON BY ID
-router.delete("/:id", getPokemon, async (req, res) => {
+router.delete("/:id", protectedRoute, getPokemon, async (req, res) => {
   try {
     await res.pokemon.deleteOne();
     res.status(204).send();

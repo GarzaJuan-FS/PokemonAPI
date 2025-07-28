@@ -1,77 +1,93 @@
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
+import PokemonList from "./components/PokemonList";
+import PokemonDetail from "./components/PokemonDetail";
+import CreatePokemon from "./components/CreatePokemon";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Navigation from "./components/Navigation";
 import "./App.css";
-import React, { useState, useEffect } from "react";
 
 function App() {
-  const [pokemon, setPokemon] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const API_BASE =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:4000"
-      : process.env.REACT_APP_API_URL;
-  useEffect(() => {
-    let ignore = false;
+  const { user, loading } = useAuth();
 
-    const getPokemon = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`${API_BASE}/pokemon`);
-        const data = await res.json();
-        console.log(data);
-        if (!ignore) {
-          setPokemon(data);
-        }
-      } catch (error) {
-        setError(error.message || "Failed to fetch Pokémon data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getPokemon();
-
-    return () => {
-      ignore = true;
-    };
-  }, [API_BASE]);
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div>Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Pokédex</h1>
+      {user && <Navigation />}
+      <Routes>
+        {/* Public Routes - Only accessible when NOT logged in */}
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/dashboard" replace /> : <Login />}
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/dashboard" replace /> : <Register />}
+        />
 
-        {loading && <p>Loading Pokemon...</p>}
+        {/* Protected Routes - Only accessible when logged in */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-        {error && (
-          <div style={{ color: "red", marginBottom: "20px" }}>
-            <p>Error: {error}</p>
-          </div>
-        )}
+        <Route
+          path="/pokemon"
+          element={
+            <ProtectedRoute>
+              <PokemonList />
+            </ProtectedRoute>
+          }
+        />
 
-        {pokemon && (
-          <div>
-            <h2>Pokemon Data:</h2>
-            <pre
-              style={{
-                textAlign: "left",
-                background: "#f4f4f4",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
-            >
-              {JSON.stringify(pokemon, null, 2)}
-            </pre>
-          </div>
-        )}
+        <Route
+          path="/pokemon/create"
+          element={
+            <ProtectedRoute>
+              <CreatePokemon />
+            </ProtectedRoute>
+          }
+        />
 
-        <ul>
-          <li>View all Pokémon</li>
-          <li>View Pokémon by ID</li>
-          <li>Create new Pokémon</li>
-          <li>Update Pokémon by ID</li>
-          <li>Delete Pokémon by ID</li>
-        </ul>
-      </header>
+        <Route
+          path="/pokemon/:id"
+          element={
+            <ProtectedRoute>
+              <PokemonDetail />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Default Route */}
+        <Route
+          path="/"
+          element={
+            user ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Catch all route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }
