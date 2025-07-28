@@ -32,17 +32,17 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 
-const jwtStrategy = new JwtStrategy(jwtOptions, async (payload, done) => {
-  try {
-    const user = await User.findById(payload.sub);
+const jwtStrategy = new JwtStrategy(jwtOptions, (payload, done) => {
+  User.findById(payload.sub, (err, user) => {
+    if (err) {
+      return done(err, false);
+    }
     if (user) {
       return done(null, user);
     } else {
       return done(null, false);
     }
-  } catch (error) {
-    return done(error, false);
-  }
+  });
 });
 
 passport.use(localStrategy);
